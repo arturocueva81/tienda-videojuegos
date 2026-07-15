@@ -1,0 +1,186 @@
+/* ═══════════════════════════════════════════════════════
+   FormularioVideojuego.css
+   Layout de ancho completo con grid de 2 columnas
+═══════════════════════════════════════════════════════ */
+
+/* ── Contenedor principal — ocupa toda la pantalla ── */
+.formulario-container {
+    width: 100%;
+    min-height: calc(100vh - 60px); /* descuenta la altura del Navbar */
+    background-color: #0a0a0a;
+    padding: 32px 48px;
+    box-sizing: border-box;
+}
+
+/* ── Título del formulario ── */
+.formulario-container h2 {
+    color: #ffffff;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 28px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #107c10;
+}
+
+/* ── Formulario: grid de 2 columnas ── */
+.formulario {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 32px;         /* gap vertical | gap horizontal */
+    align-items: start;
+}
+
+/* ── Campo individual (label + input) ── */
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.campo label {
+    color: #6abf69;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+/* ── Inputs, selects y dates ── */
+.campo input,
+.campo select {
+    background-color: #1a1a2e;
+    border: 1px solid #2a2a4a;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 0.95rem;
+    padding: 12px 16px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    outline: none;
+}
+
+.campo input::placeholder {
+    color: #555577;
+}
+
+.campo input:focus,
+.campo select:focus {
+    border-color: #107c10;
+    box-shadow: 0 0 0 3px rgba(16, 124, 16, 0.25);
+}
+
+/* Select — flecha personalizada */
+.campo select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236abf69' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    cursor: pointer;
+}
+
+.campo select option {
+    background-color: #1a1a2e;
+    color: #ffffff;
+}
+
+/* Input type date — ícono de calendario */
+.campo input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+/* ── Checkbox — ocupa las 2 columnas ── */
+.campo-checkbox {
+    grid-column: 1 / -1;   /* span completo de izquierda a derecha */
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+    background-color: #1a1a2e;
+    border: 1px solid #2a2a4a;
+    border-radius: 8px;
+    padding: 14px 16px;
+}
+
+.campo-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #107c10;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+}
+
+.campo-checkbox label {
+    color: #cccccc;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: normal;
+    cursor: pointer;
+    margin: 0;
+}
+
+/* ── Botones — ocupan las 2 columnas ── */
+.formulario-botones {
+    grid-column: 1 / -1;   /* span completo */
+    display: flex;
+    gap: 16px;
+    margin-top: 8px;
+}
+
+.btn-guardar,
+.btn-cancelar {
+    flex: 1;
+    padding: 14px 0;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.15s ease;
+    letter-spacing: 0.03em;
+}
+
+.btn-guardar {
+    background-color: #107c10;
+    color: #ffffff;
+}
+
+.btn-cancelar {
+    background-color: #2a2a2a;
+    color: #aaaaaa;
+    border: 1px solid #444;
+}
+
+.btn-guardar:hover {
+    opacity: 0.88;
+    transform: translateY(-2px);
+}
+
+.btn-cancelar:hover {
+    background-color: #3a3a3a;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════ */
+
+/* Tablet → 1 columna */
+@media (max-width: 768px) {
+    .formulario-container {
+        padding: 24px 20px;
+    }
+
+    .formulario {
+        grid-template-columns: 1fr;
+    }
+
+    .campo-checkbox,
+    .formulario-botones {
+        grid-column: 1;
+    }
+}

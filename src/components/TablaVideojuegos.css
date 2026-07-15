@@ -1,138 +1,148 @@
-/* ── Asegura que ocupe todo el ancho ─────────────── */
-body, #root {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    background-color: #074207;
-}
-
-/* ── Reset y base ────────────────────────────────── */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* ── Contenedor principal ────────────────────────── */
+/* ── Contenedor principal ── */
 .tabla-container {
-    padding: 32px 48px;
-    font-family: 'Segoe UI', 'Xbox Sans', sans-serif;
-    background: linear-gradient(160deg, #135e23 0%, #0d1f0d 50%, #135e23 100%);
+    padding: 24px;
+    background-color: #0a0a0a;
     min-height: 100vh;
-    width: 100%;
-    color: #fff;
 }
 
-/* ── Encabezado estilo Xbox ──────────────────────── */
+/* ── Encabezado ── */
 .tabla-header {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: 28px;
     border-bottom: 2px solid #107c10;
-    padding-bottom: 16px;
+    padding-bottom: 12px;
 }
 
 .tabla-header h2 {
-    font-size: 1.9rem;
-    font-weight: 700;
     color: #ffffff;
-    letter-spacing: -0.5px;
+    font-size: 1.8rem;
+    font-weight: 700;
 }
 
 .tabla-header h2 span {
-    color: #107c10;
+    color: #6abf69;
 }
 
-.tabla-header p {
+.total-badge {
     background-color: #107c10;
-    color: #fff;
-    padding: 5px 14px;
+    color: white;
+    padding: 6px 16px;
     border-radius: 20px;
-    font-size: 0.82rem;
     font-weight: 600;
-    letter-spacing: 0.5px;
+    font-size: 0.9rem;
 }
 
-/* ── Wrapper responsivo ──────────────────────────── */
-.tabla-wrapper {
-    width: 100%;
-    overflow-x: auto;
-    border-radius: 8px;
-    border: 1px solid #1a3a1a;
-    box-shadow: 0 8px 32px rgba(16, 124, 16, 0.2);
-    background-color: #0f1f0f;
+/* ── Grid de 4 columnas ── */
+.grid-videojuegos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
 }
 
-/* ── Tabla ───────────────────────────────────────── */
-.tabla-videojuegos {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 750px;
+/* ── Tarjeta base ── */
+.card-juego {
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* ── Encabezado de la tabla ──────────────────────── */
-.tabla-videojuegos thead {
-    background-color: #0d2b0d;
-    border-bottom: 2px solid #107c10;
+.card-juego:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
 }
 
-.tabla-videojuegos thead th:first-child {
-    border-left: 3px solid transparent;
+/* ── Colores por plataforma ── */
+.card-xbox {
+    background-color: #0d3d0d;
+    border: 2px solid #107c10;
 }
 
-.tabla-videojuegos thead th {
-    padding: 14px 18px;
-    text-align: center;
-    font-size: 0.90rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: #3dfa04;
+.card-playstation {
+    background-color: #0a1a3a;
+    border: 2px solid #003087;
 }
 
-/* ── Filas del cuerpo ────────────────────────────── */
-.tabla-videojuegos tbody tr {
-    border-bottom: 1px solid #1a3a1a;
-    transition: background-color 0.15s ease;
-    cursor: default;
+.card-nintendo {
+    background-color: #3a0a0a;
+    border: 2px solid #e4000f;
 }
 
-.tabla-videojuegos tbody tr:hover {
-    background-color: #132613;
+.card-pc {
+    background-color: #1e1e1e;
+    border: 2px solid #555555;
 }
 
-.tabla-videojuegos tbody td:first-child {
-    border-left: 3px solid transparent;
-    transition: border-left 0.15s ease;
-}
-
-.tabla-videojuegos tbody tr:hover td:first-child {
-    border-left: 3px solid #107c10;
-}
-
-.tabla-videojuegos tbody td {
-    padding: 14px 18px;
-    font-size: 0.88rem;
-    color: #d4d4d4;
-    text-align: center;
-}
-
-/* Título del juego destacado */
-.tabla-videojuegos tbody td:first-child {
-    font-weight: 600;
+/* ── Título de la tarjeta ── */
+.card-titulo {
     color: #ffffff;
-    font-size: 0.92rem;
+    font-size: 1rem;
+    font-weight: 700;
+    text-align: center;
+    margin: 0;
+    width: 100%;
 }
 
-/* ── Badge disponibilidad ────────────────────────── */
+/* ── Imagen ── */
+.card-imagen-wrapper {
+    width: 100%;
+    height: 130px;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.card-imagen {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.card-imagen-placeholder {
+    width: 100%;
+    height: 100%;
+    background-color: #2a2a2a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    font-size: 0.85rem;
+    border-radius: 8px;
+}
+
+/* ── Datos del juego ── */
+.card-datos {
+    width: 100%;
+    font-size: 0.82rem;
+    color: #cccccc;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.card-datos p {
+    margin: 0;
+}
+
+.card-datos span {
+    color: #6abf69;
+    font-weight: 600;
+}
+
+/* ── Badges disponibilidad ── */
 .badge {
     padding: 4px 12px;
-    border-radius: 4px;
+    border-radius: 20px;
     font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.05em;
 }
 
 .badge-disponible {
@@ -141,94 +151,93 @@ body, #root {
 }
 
 .badge-nodisponible {
-    background-color: #2a2a2a;
-    color: #6e6e6e;
-    border: 1px solid #3a3a3a;
+    background-color: #4a4a4a;
+    color: #aaaaaa;
 }
 
-/* ── Barra de progreso estilo Xbox ───────────────── */
-.progreso-cell {
+/* ── Barra de progreso ── */
+.card-progreso {
+    width: 100%;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
+    gap: 8px;
 }
 
-.progreso-cell progress {
-    width: 110px;
-    height: 6px;
-    border-radius: 3px;
-    overflow: hidden;
+.card-progreso progress {
+    flex: 1;
+    height: 8px;
+    border-radius: 4px;
     appearance: none;
-    -webkit-appearance: none;
+}
+
+.card-progreso progress::-webkit-progress-bar {
+    background-color: #2a2a2a;
+    border-radius: 4px;
+}
+
+.card-progreso progress::-webkit-progress-value {
+    background-color: #107c10;
+    border-radius: 4px;
+}
+
+.card-progreso span {
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    min-width: 32px;
+}
+
+/* ── Botones de acción ── */
+.card-acciones {
+    width: 100%;
+    display: flex;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.btn-editar,
+.btn-eliminar {
+    flex: 1;
+    padding: 7px 0;
     border: none;
-    background-color: #1a3a1a;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.1s ease;
 }
 
-/* Chrome / Safari */
-.progreso-cell progress::-webkit-progress-bar {
-    background-color: #1a3a1a;
-    border-radius: 3px;
+.btn-editar {
+    background-color: #e67e00;  /* Naranja */
+    color: #ffffff;
 }
 
-.progreso-cell progress::-webkit-progress-value {
-    background-color: #107c10;
-    border-radius: 3px;
+.btn-eliminar {
+    background-color: #c0392b;  /* Rojo */
+    color: #ffffff;
 }
 
-/* Firefox */
-.progreso-cell progress::-moz-progress-bar {
-    background-color: #107c10;
-    border-radius: 3px;
+.btn-editar:hover,
+.btn-eliminar:hover {
+    opacity: 0.85;
+    transform: scale(1.03);
 }
 
-.progreso-cell span {
-    font-size: 0.80rem;
-    color: #107c10;
-    font-weight: 700;
-    min-width: 36px;
+/* ── Responsive ── */
+@media (max-width: 1100px) {
+    .grid-videojuegos {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
-/* ── Precio ──────────────────────────────────────── */
-.tabla-videojuegos tbody td:nth-child(5) {
-    color: #107c10;
-    font-weight: 700;
-    font-size: 0.95rem;
-}
-
-/* ── Responsivo ──────────────────────────────────── */
 @media (max-width: 768px) {
-    .tabla-container {
-        padding: 20px 16px;
-    }
-
-    .tabla-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-    }
-
-    .tabla-header h2 {
-        font-size: 1.4rem;
-    }
-
-    .tabla-videojuegos thead th,
-    .tabla-videojuegos tbody td {
-        padding: 10px 12px;
-        font-size: 0.80rem;
-    }
-
-    .progreso-cell progress {
-        width: 70px;
+    .grid-videojuegos {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media (max-width: 480px) {
-    .tabla-container {
-        padding: 12px;
-    }
-
-    .tabla-header h2 {
-        font-size: 1.2rem;
+    .grid-videojuegos {
+        grid-template-columns: 1fr;
     }
 }

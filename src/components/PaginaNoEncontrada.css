@@ -1,0 +1,110 @@
+/* ===== CONTENEDOR PRINCIPAL ===== */
+.pagina404-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    padding: 1rem;
+    text-align: center;
+    background-color: #0f0f1a;
+    color: #fff;
+    font-family: sans-serif;
+    gap: 0.4rem;
+}
+
+/* ===== ENVOLTORIO — brillo rojo pulsante ===== */
+.rrod-wrapper {
+    padding: 10px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #3a0000 0%, #1a0000 100%);
+    box-shadow:
+        0 0 15px 5px #ff0000,
+        0 0 30px 10px #cc0000,
+        0 0 45px 15px #880000;
+    animation: pulse-red 1.5s ease-in-out infinite;
+    margin-bottom: 1rem;
+}
+
+/* ===== ANILLO — 4 cuadrantes rojos con conic-gradient ===== */
+.rrod-outer {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+
+    /* 4 arcos rojos separados por gaps transparentes de ~10° cada uno */
+    background: conic-gradient(
+        transparent   0deg   5deg,
+        #ff2200       5deg  85deg,
+        transparent  85deg  95deg,
+        #ff2200      95deg 175deg,
+        transparent 175deg 185deg,
+        #ff2200     185deg 265deg,
+        transparent 265deg 275deg,
+        #ff2200     275deg 355deg,
+        transparent 355deg 360deg
+    );
+
+    /* mask borra el centro para crear el efecto de anillo hueco */
+    -webkit-mask: radial-gradient(transparent 62%, black 63%);
+    mask: radial-gradient(transparent 62%, black 63%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* ===== IMAGEN CIRCULAR centrada dentro del anillo ===== */
+.rrod-inner {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    overflow: hidden;
+    position: absolute;
+}
+
+.rrod-inner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.85) saturate(1.2);
+}
+
+/* ===== TEXTOS ===== */
+.pagina404-container h1 {
+    font-size: 3.5rem;
+    margin: 0.3rem 0;
+    color: #ff0000;
+}
+
+.pagina404-container h2 {
+    color: #ccc;
+    margin: 0;
+}
+
+.pagina404-container p {
+    color: #888;
+    margin: 0;
+}
+
+/* ===== LINK VOLVER ===== */
+.pagina404-link {
+    color: #107c10;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-decoration: none;
+    margin-top: 1rem;
+    display: inline-block;
+}
+
+.pagina404-link:hover {
+    text-decoration: underline;
+}
+
+/* ===== ANIMACIÓN pulso rojo ===== */
+@keyframes pulse-red {
+    0%   { box-shadow: 0 0 15px 5px #ff0000, 0 0 30px 10px #cc0000, 0 0 45px 15px #880000; }
+    50%  { box-shadow: 0 0 20px 8px #ff3333, 0 0 40px 15px #dd0000, 0 0 55px 20px #990000; }
+    100% { box-shadow: 0 0 15px 5px #ff0000, 0 0 30px 10px #cc0000, 0 0 45px 15px #880000; }
+}
