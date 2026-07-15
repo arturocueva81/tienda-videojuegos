@@ -6,6 +6,8 @@ import Navbar from './components/Navbar';
 import TablaVideojuegos from './components/TablaVideojuegos';
 import FormularioVideojuego from './components/FormularioVideojuego';
 import PaginaNoEncontrada from './components/PaginaNoEncontrada';
+import AlertaNotificacion from './components/AlertaNotificacion';
+import './components/AlertaNotificacion.css';
 
 // ─────────────────────────────────────────────
 // CONFIGURACIÓN DE LA API
@@ -70,10 +72,24 @@ function Contenido() {
     // useNavigate permite cambiar de ruta desde el código (sin que el usuario haga clic en un link)
     const navigate = useNavigate();
 
-    // Estado central — todos los videojuegos viven aquí.
-    // Cuando este estado cambia, React re-renderiza automáticamente
-    // los componentes que lo usan (TablaVideojuegos, etc.)
-    const [videojuegos, setVideojuegos] = useState(juegosIniciales);
+    // Lazy initialization: la función se ejecuta UNA sola vez al montar.
+    // Primero revisa si hay datos guardados en localStorage.
+    // Si los hay → los usa. Si no → usa juegosIniciales.
+    const [videojuegos, setVideojuegos] = useState(() => {
+        const guardados = localStorage.getItem('lista_videojuegos');
+        // JSON.parse convierte el texto guardado de vuelta a array de objetos
+        return guardados ? JSON.parse(guardados) : juegosIniciales;
+    });
+
+
+    // Controla si el Toast es visible o no
+    const [mostrarToast, setMostrarToast] = useState(false);
+
+    // Función que muestra el Toast y lo oculta automáticamente a los 3 segundos
+    const mostrarNotificacion = () => {
+        setMostrarToast(true);
+        setTimeout(() => setMostrarToast(false), 3000);
+    };
 
     // ─────────────────────────────────────────────
     // EFECTO: Carga de imágenes iniciales
@@ -85,10 +101,16 @@ function Contenido() {
     // ─────────────────────────────────────────────
     useEffect(() => {
     const cargarImagenes = async () => {
+        // Usamos 'videojuegos' en lugar de 'juegosIniciales'
+        // para no sobreescribir los datos que ya leyó el localStorage
+        setVideojuegos(prev => prev); // forzamos lectura del estado actual
+        const guardados = localStorage.getItem('lista_videojuegos');
+        const base = guardados ? JSON.parse(guardados) : juegosIniciales;
+
         const actualizados = await Promise.all(
-            juegosIniciales.map(async (juego) => ({
+            base.map(async (juego) => ({
                 ...juego,
-                imagen: await buscarImagen(juego.titulo),
+                imagen: juego.imagen || await buscarImagen(juego.titulo),
             }))
         );
         setVideojuegos(actualizados);
@@ -96,16 +118,19 @@ function Contenido() {
     cargarImagenes();
     }, []);
 
+    // Cada vez que 'videojuegos' cambie, guardamos la lista completa
+    // en localStorage automáticamente.
+    // JSON.stringify convierte el array de objetos a texto para poder guardarlo.
+    // La clave 'lista_videojuegos' es el nombre con que se identifica en el navegador.
+    useEffect(() => {
+        localStorage.setItem('lista_videojuegos', JSON.stringify(videojuegos));
+    }, [videojuegos]); // ← se ejecuta cada vez que videojuegos cambie
+
     // ─────────────────────────────────────────────
     // CRUD: Operaciones sobre la lista de videojuegos
     // ─────────────────────────────────────────────
 
-    // CREAR — busca la imagen del nuevo juego y lo agrega al final de la lista
-    const agregarJuego = async (nuevoJuego) => {
-        const imagen = await buscarImagen(nuevoJuego.titulo);
-        setVideojuegos([...videojuegos, { ...nuevoJuego, imagen }]);
-        // [...videojuegos] copia la lista actual y agrega el nuevo juego al final
-    };
+
 
     // ELIMINAR — filtra la lista excluyendo el juego con el id recibido
     const eliminarJuego = (id) => {
@@ -118,13 +143,20 @@ function Contenido() {
         navigate('/editar', { state: juego });
     };
 
-    // ACTUALIZAR — busca la nueva imagen y reemplaza el juego editado en la lista
-    // .map() recorre todos los juegos: si el id coincide, reemplaza; si no, lo deja igual
+
+
+    const agregarJuego = async (nuevoJuego) => {
+        const imagen = await buscarImagen(nuevoJuego.titulo);
+        setVideojuegos([...videojuegos, { ...nuevoJuego, imagen }]);
+        mostrarNotificacion(); // 🆕
+    };
+
     const actualizarJuego = async (juegoEditado) => {
         const imagen = await buscarImagen(juegoEditado.titulo);
         setVideojuegos(videojuegos.map((j) =>
             j.id === juegoEditado.id ? { ...juegoEditado, imagen } : j
         ));
+        mostrarNotificacion(); // 🆕
     };
 
     return (
@@ -166,6 +198,13 @@ function Contenido() {
 
                 <Route path="*" element={<PaginaNoEncontrada />} />
             </Routes>
+
+            {/* Toast flotante — aparece 3 segundos al guardar */}
+                <AlertaNotificacion
+                    mensaje="¡Videojuego guardado correctamente!"
+                    visible={mostrarToast}
+                />
+
         </>
     );
 }

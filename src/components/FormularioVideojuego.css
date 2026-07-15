@@ -1,186 +1,241 @@
-/* ═══════════════════════════════════════════════════════
-   FormularioVideojuego.css
-   Layout de ancho completo con grid de 2 columnas
-═══════════════════════════════════════════════════════ */
+/* ─────────────────────────────────────────────
+VARIABLES CSS — colores y fuentes centralizados
+Cambiar aquí afecta a todo el formulario
+───────────────────────────────────────────── */
+:root {
+    --color-bg:         #93ca96;
+    --color-surface:    #ffffff;
+    --color-primary:    #1f3f17;
+    --color-primary-hover: #1f3f17;
+    --color-danger:     #e53935;
+    --color-success:    #43a047;
+    --color-text:       #2d2d2d;
+    --color-muted:      #8a8a9a;
+    --color-border:     #e0efe4;
+    --radius:           12px;
+    --shadow:           0 4px 24px rgba(108, 99, 255, 0.10);
+    --transition:       0.25s ease;
+}
 
-/* ── Contenedor principal — ocupa toda la pantalla ── */
+/* ─────────────────────────────────────────────
+CONTENEDOR PRINCIPAL
+───────────────────────────────────────────── */
 .formulario-container {
-    width: 100%;
-    min-height: calc(100vh - 60px); /* descuenta la altura del Navbar */
-    background-color: #0a0a0a;
-    padding: 32px 48px;
-    box-sizing: border-box;
+    max-width: 100%;
+    margin: 50px;
+    padding: 10px;
+    background: var(--color-surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 10px solid var(--color-border);
 }
 
-/* ── Título del formulario ── */
 .formulario-container h2 {
-    color: #ffffff;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     font-weight: 700;
-    margin-bottom: 28px;
-    padding-bottom: 12px;
-    border-bottom: 2px solid #107c10;
+    color: var(--color-text);
+    margin-bottom: 32px;
+    text-align: center;
+    letter-spacing: -0.5px;
 }
 
-/* ── Formulario: grid de 2 columnas ── */
+/* ─────────────────────────────────────────────
+FORMULARIO — layout de columnas responsive
+───────────────────────────────────────────── */
 .formulario {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px 32px;         /* gap vertical | gap horizontal */
-    align-items: start;
+    gap: 20px;
 }
 
-/* ── Campo individual (label + input) ── */
+/* ─────────────────────────────────────────────
+CAMPO — cada grupo label + input
+───────────────────────────────────────────── */
 .campo {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
+}
+
+/* Sinopsis y botones ocupan las 2 columnas completas */
+.campo:has(textarea),
+.formulario-botones {
+    grid-column: 1 / -1;
 }
 
 .campo label {
-    color: #6abf69;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     font-weight: 600;
+    color: var(--color-muted);
     text-transform: uppercase;
     letter-spacing: 0.06em;
 }
 
-/* ── Inputs, selects y dates ── */
+/* ─────────────────────────────────────────────
+INPUTS, SELECTS y TEXTAREA
+───────────────────────────────────────────── */
 .campo input,
-.campo select {
-    background-color: #1a1a2e;
-    border: 1px solid #2a2a4a;
+.campo select,
+.campo textarea {
+    padding: 10px 14px;
+    border: 1.5px solid var(--color-border);
     border-radius: 8px;
-    color: #ffffff;
     font-size: 0.95rem;
-    padding: 12px 16px;
-    width: 100%;
-    box-sizing: border-box;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    color: var(--color-text);
+    background: var(--color-bg);
+    transition: border-color var(--transition), box-shadow var(--transition);
     outline: none;
+    font-family: inherit;
 }
 
-.campo input::placeholder {
-    color: #555577;
-}
-
+/* Animación de borde al hacer focus */
 .campo input:focus,
-.campo select:focus {
-    border-color: #107c10;
-    box-shadow: 0 0 0 3px rgba(16, 124, 16, 0.25);
+.campo select:focus,
+.campo textarea:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.12);
+    background: #fff;
 }
 
-/* Select — flecha personalizada */
-.campo select {
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236abf69' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 14px center;
-    cursor: pointer;
+.campo textarea {
+    resize: vertical;
+    min-height: 90px;
 }
 
-.campo select option {
-    background-color: #1a1a2e;
-    color: #ffffff;
+/* ─────────────────────────────────────────────
+CONTADOR DE CARACTERES
+───────────────────────────────────────────── */
+.campo small {
+    font-size: 0.75rem;
+    color: var(--color-muted);
+    text-align: right;
 }
 
-/* Input type date — ícono de calendario */
-.campo input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(1);
-    cursor: pointer;
-    opacity: 0.6;
-}
-
-/* ── Checkbox — ocupa las 2 columnas ── */
+/* ─────────────────────────────────────────────
+CHECKBOX — disponible en Game Pass
+───────────────────────────────────────────── */
 .campo-checkbox {
-    grid-column: 1 / -1;   /* span completo de izquierda a derecha */
     flex-direction: row;
     align-items: center;
-    gap: 12px;
-    background-color: #1a1a2e;
-    border: 1px solid #2a2a4a;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--color-bg);
+    border: 1.5px solid var(--color-border);
     border-radius: 8px;
-    padding: 14px 16px;
+    cursor: pointer;
 }
 
 .campo-checkbox input[type="checkbox"] {
     width: 18px;
     height: 18px;
-    accent-color: #107c10;
+    accent-color: var(--color-primary);
     cursor: pointer;
-    margin: 0;
     padding: 0;
+    border: none;
+    background: none;
+    box-shadow: none;
 }
 
 .campo-checkbox label {
-    color: #cccccc;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 500;
+    color: var(--color-text);
     text-transform: none;
-    letter-spacing: normal;
+    letter-spacing: 0;
     cursor: pointer;
     margin: 0;
 }
 
-/* ── Botones — ocupan las 2 columnas ── */
-.formulario-botones {
-    grid-column: 1 / -1;   /* span completo */
+/* ─────────────────────────────────────────────
+MENSAJES DE ERROR
+───────────────────────────────────────────── */
+.error-msg {
+    color: var(--color-danger);
+    font-size: 0.78rem;
+    font-weight: 600;
     display: flex;
-    gap: 16px;
+    align-items: center;
+    gap: 4px;
+    animation: aparecer 0.2s ease;
+}
+
+@keyframes aparecer {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Input con error — borde rojo */
+.campo:has(.error-msg) input,
+.campo:has(.error-msg) textarea {
+    border-color: var(--color-danger);
+    box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.10);
+}
+
+/* ─────────────────────────────────────────────
+BOTONES
+───────────────────────────────────────────── */
+.formulario-botones {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
     margin-top: 8px;
 }
 
 .btn-guardar,
 .btn-cancelar {
-    flex: 1;
-    padding: 14px 0;
+    padding: 11px 28px;
     border: none;
     border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 700;
+    font-size: 0.95rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: opacity 0.2s ease, transform 0.15s ease;
-    letter-spacing: 0.03em;
+    transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
 }
 
 .btn-guardar {
-    background-color: #107c10;
-    color: #ffffff;
-}
-
-.btn-cancelar {
-    background-color: #2a2a2a;
-    color: #aaaaaa;
-    border: 1px solid #444;
+    background: var(--color-primary);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(108, 99, 255, 0.25);
 }
 
 .btn-guardar:hover {
-    opacity: 0.88;
+    background: var(--color-primary-hover);
     transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(108, 99, 255, 0.35);
+}
+
+.btn-cancelar {
+    background: var(--color-bg);
+    color: var(--color-muted);
+    border: 1.5px solid var(--color-border);
 }
 
 .btn-cancelar:hover {
-    background-color: #3a3a3a;
-    color: #ffffff;
+    background: var(--color-border);
+    color: var(--color-text);
     transform: translateY(-2px);
 }
 
-/* ═══════════════════════════════════════════════════════
-   RESPONSIVE
-═══════════════════════════════════════════════════════ */
-
-/* Tablet → 1 columna */
-@media (max-width: 768px) {
+/* ─────────────────────────────────────────────
+RESPONSIVE — móvil (1 columna)
+───────────────────────────────────────────── */
+@media (max-width: 600px) {
     .formulario-container {
-        padding: 24px 20px;
+        margin: 16px;
+        padding: 24px 16px;
     }
 
     .formulario {
         grid-template-columns: 1fr;
     }
 
-    .campo-checkbox,
     .formulario-botones {
-        grid-column: 1;
+        flex-direction: column;
+    }
+
+    .btn-guardar,
+    .btn-cancelar {
+        width: 100%;
+        text-align: center;
     }
 }

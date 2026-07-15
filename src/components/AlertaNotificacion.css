@@ -1,0 +1,33 @@
+/* Notificación flotante tipo Toast */
+.toast-notificacion {
+    position: fixed;       /* flota sobre todo el contenido */
+    bottom: 32px;
+    right: 32px;
+    background-color: #107c10;
+    color: #ffffff;
+    padding: 14px 24px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    z-index: 9999;         /* siempre encima de todo */
+
+    /* Animación de entrada desde abajo */
+    animation: entrarToast 0.3s ease;
+}
+
+@keyframes entrarToast {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.toast-icono {
+    font-size: 1.2rem;
+}
+
+.toast-mensaje {
+    letter-spacing: 0.02em;
+}
